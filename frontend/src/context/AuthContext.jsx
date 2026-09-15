@@ -11,8 +11,9 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   axios.defaults.baseURL = API_BASE;
-  // Add ngrok bypass header
+  // Add ngrok bypass header to prevent ngrok warning page from blocking CORS
   axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
+  axios.defaults.headers.common['User-Agent'] = 'NLAMS-Frontend';
 
   useEffect(() => {
     if (token) {
