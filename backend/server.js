@@ -29,14 +29,14 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
 }));
 
-// CORS - Allow ngrok URLs and local development
+// CORS - Allow ngrok URLs, Vercel, and local development
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
-// Also allow any ngrok URL
+// Also allow any ngrok URL and Vercel URLs
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, Postman)
@@ -47,6 +47,11 @@ app.use(cors({
     
     // Allow any ngrok.io or ngrok-free.app URL
     if (origin.includes('ngrok.io') || origin.includes('ngrok-free.app') || origin.includes('ngrok.app')) {
+      return callback(null, true);
+    }
+    
+    // Allow any Vercel deployment URL
+    if (origin.includes('vercel.app')) {
       return callback(null, true);
     }
     
