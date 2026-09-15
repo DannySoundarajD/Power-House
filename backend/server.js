@@ -23,20 +23,18 @@ const landownerRoutes = require('./routes/landowner');
 
 const app = express();
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: false, // Disable for ngrok compatibility
-  crossOriginEmbedderPolicy: false,
-}));
+// Trust proxy for ngrok/Vercel
+app.set('trust proxy', 1);
 
-// CORS - Allow ngrok URLs, Vercel, and local development
+// CORS - Must come BEFORE helmet to ensure headers are set
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'https://frontend-rust-psi-63.vercel.app', // Your Vercel deployment
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
-// Also allow any ngrok URL and Vercel URLs
+// CORS configuration - Allow ngrok URLs, Vercel, and local development
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, Postman)
@@ -57,9 +55,19 @@ app.use(cors({
     
     callback(new Error('Not allowed by CORS'));
   },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
+  exposedHeaders: ['Content-Length', 'Content-Type'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
+
+// Security middleware - Must come AFTER CORS
+app.use(helmet({
+  contentSecurityPolicy: false, // Disable for ngrok compatibility
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow cross-origin requests
 }));
 
 // Rate limiting
@@ -79,6 +87,25 @@ app.use('/api/auth/', authLimiter);
 
 app.use(express.json({ limit: '10mb' }));
 app.use(morgan('combined'));
+
+// Additional CORS headers middleware as fallback (for ngrok compatibility)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && (origin.includes('vercel.app') || origin.includes('ngrok'))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
+  }
+  
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  
+  next();
+});
 
 // Static file serving for uploads
 app.use('/uploads', express.static('uploads'));

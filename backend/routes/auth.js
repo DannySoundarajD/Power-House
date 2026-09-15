@@ -30,15 +30,15 @@ router.post('/login', async (req, res) => {
     }
 
     // Update last login
-    await pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]);
+    await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
 
     // Generate access and refresh tokens
     const { accessToken, refreshToken } = generateTokens(user);
 
     // Log successful login
     await pool.query(
-      `INSERT INTO audit_logs (table_name, record_id, action, new_data, changed_by, ip_address)
-       VALUES ('users', $1, 'LOGIN', $2, $1, $3)`,
+      `INSERT INTO audit_logs (user_id, action, record_type, record_id, new_values, ip_address)
+       VALUES ($1, 'LOGIN', 'users', $1, $2, $3)`,
       [user.id, JSON.stringify({ email: user.email }), req.ip]
     );
 
@@ -51,8 +51,7 @@ router.post('/login', async (req, res) => {
         email: user.email,
         role: user.role,
         department: user.department,
-        district: user.district,
-        employeeId: user.employee_id
+        district: user.district
       }
     });
   } catch (err) {
@@ -103,7 +102,7 @@ router.post('/refresh', async (req, res) => {
 router.get('/me', authenticate, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT id, name, email, role, department, district, phone, employee_id, last_login, created_at FROM users WHERE id = $1',
+      'SELECT id, name, email, role, department, district, phone, last_login_at, created_at FROM users WHERE id = $1',
       [req.user.userId]
     );
 
@@ -123,8 +122,8 @@ router.post('/logout', authenticate, async (req, res) => {
   try {
     // Log logout
     await pool.query(
-      `INSERT INTO audit_logs (table_name, record_id, action, changed_by, ip_address)
-       VALUES ('users', $1, 'LOGOUT', $1, $2)`,
+      `INSERT INTO audit_logs (user_id, action, record_type, record_id, ip_address)
+       VALUES ($1, 'LOGOUT', 'users', $1, $2)`,
       [req.user.userId, req.ip]
     );
 
@@ -158,17 +157,17 @@ router.get('/audit-logs', authenticate, async (req, res) => {
     let query = `
       SELECT al.*, u.name as user_name, u.email as user_email
       FROM audit_logs al
-      LEFT JOIN users u ON u.id = al.changed_by
+      LEFT JOIN users u ON u.id = al.user_id
       WHERE 1=1
     `;
     const params = [];
 
     if (userId) {
       params.push(userId);
-      query += ` AND al.changed_by = $${params.length}`;
+      query += ` AND al.user_id = $${params.length}`;
     }
 
-    query += ` ORDER BY al.changed_at DESC LIMIT $${params.length + 1}`;
+    query += ` ORDER BY al.created_at DESC LIMIT $${params.length + 1}`;
     params.push(parseInt(limit));
 
     const result = await pool.query(query, params);

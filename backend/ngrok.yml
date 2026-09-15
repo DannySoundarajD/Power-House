@@ -1,0 +1,14 @@
+version: "2"
+authtoken: ""
+tunnels:
+  nlams:
+    proto: http
+    addr: 5000
+    inspect: true
+    schemes:
+      - https
+    response_headers:
+      add:
+        - "Access-Control-Allow-Origin: *"
+        - "Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS"
+        - "Access-Control-Allow-Headers: Content-Type, Authorization"

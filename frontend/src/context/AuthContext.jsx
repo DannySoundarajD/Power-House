@@ -11,6 +11,8 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   axios.defaults.baseURL = API_BASE;
+  // Add ngrok bypass header
+  axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
 
   useEffect(() => {
     if (token) {

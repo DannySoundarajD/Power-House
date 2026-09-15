@@ -1,0 +1,37 @@
+# NLAMS Vercel + Ngrok Deployment URLs
+# Generated: 2026-09-15 23:00:24
+
+Frontend (Vercel - Permanent): https://[check-vercel-dashboard].vercel.app
+Backend (Ngrok - Temporary): https://floristically-glottogonic-eusebio.ngrok-free.dev
+Ngrok Inspector: http://localhost:4040
+
+## Share This With Your Friend:
+https://[check-vercel-dashboard].vercel.app
+
+## Demo Credentials
+Password for all users: Password@123
+
+Government Portal:
+- Central Admin: rajesh.kumar@dolr.gov.in
+- State Officer: priya.chandran@tn.gov.in
+- District Collector: collector.chennai@tn.gov.in
+- Field Officer: kumaran.s@tn.gov.in
+
+Landowner Portal:
+- Phone: 9840001204, Last 4: 1204
+- Phone: 9840001210, Last 4: 1210
+
+## When Backend Ngrok Expires:
+1. Stop this script (Ctrl+C)
+2. Run again: .\deploy-vercel.ps1
+3. New backend URL will be configured automatically
+4. Vercel URL stays the same!
+
+## Features to Test:
+- Dashboard with KPIs and charts
+- GIS Map with Chennai district parcels
+- 8 Real Chennai projects
+- 3 Innovations (AI Suitability, Ripple Impact, Land Offers)
+- Workflow approvals
+- Compensation tracking
+- All 14 modules working
