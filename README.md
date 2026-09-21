@@ -190,6 +190,26 @@ Airport COD Milestone Breached (Target: March 2030)
 
 ## 🚀 Quick Start
 
+### Live Demo
+
+- **Frontend:** https://frontend-rust-psi-63.vercel.app
+- **Government login:** https://frontend-rust-psi-63.vercel.app/login
+- **Backend API:** https://floristically-glottogonic-eusebio.ngrok-free.dev/api
+
+#### Government Portal
+
+- **Email:** `collector.chennai@tn.gov.in`
+- **Password:** `Password@123`
+- **Role:** District Collector (Chennai)
+
+#### Landowner Portal
+
+- **Survey number:** `145/2A`
+- **Registered mobile last 4 digits:** `1204`
+- **Demo user:** Muthusamy Gounder
+
+The frontend login requires the backend ngrok tunnel to be online. If the API URL reports `ERR_NGROK_3200`, restart the backend and ngrok deployment before testing authentication.
+
 ### Prerequisites
 - **Node.js 18+** ([Download](https://nodejs.org/))
 - **PostgreSQL 16** with **PostGIS extension** ([Download](https://www.postgresql.org/download/))
@@ -198,8 +218,8 @@ Airport COD Milestone Breached (Target: March 2030)
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/nlams-chennai.git
-cd nlams-chennai
+git clone https://github.com/DannySoundarajD/Power-House.git
+cd Power-House
 ```
 
 ### 2. Start Frontend (Works with Mock Data — No DB Required)
@@ -763,6 +783,6 @@ Not for commercial use without permission from Ministry of Rural Development.
 
 **Transforming Land Acquisition · Empowering Landowners · Accelerating Infrastructure**
 
-[🌐 Live Demo](#) | [📹 Video Demo](#) | [📊 Presentation](#)
+[🌐 Live Demo](https://frontend-rust-psi-63.vercel.app) | [📹 Video Demo](#) | [📊 Presentation](#)
 
 </div>
