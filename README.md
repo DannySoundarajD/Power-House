@@ -210,6 +210,8 @@ Airport COD Milestone Breached (Target: March 2030)
 
 The frontend login requires the backend ngrok tunnel to be online. If the API URL reports `ERR_NGROK_3200`, restart the backend and ngrok deployment before testing authentication.
 
+![NLAMS National Dashboard](dashboard-screenshot.png)
+
 ### Prerequisites
 - **Node.js 18+** ([Download](https://nodejs.org/))
 - **PostgreSQL 16** with **PostGIS extension** ([Download](https://www.postgresql.org/download/))
