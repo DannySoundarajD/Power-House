@@ -9,7 +9,10 @@ const router = express.Router();
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('🔐 Login attempt:', { email, hasPassword: !!password });
+    
     if (!email || !password) {
+      console.log('❌ Missing email or password');
       return res.status(400).json({ error: 'Email and password required' });
     }
 
@@ -18,16 +21,24 @@ router.post('/login', async (req, res) => {
       [email.toLowerCase().trim()]
     );
 
+    console.log('📊 Database query result:', { found: result.rows.length > 0, email: email.toLowerCase().trim() });
+
     if (result.rows.length === 0) {
+      console.log('❌ User not found');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const user = result.rows[0];
     const validPassword = await bcrypt.compare(password, user.password_hash);
 
+    console.log('🔑 Password check:', { valid: validPassword });
+
     if (!validPassword) {
+      console.log('❌ Invalid password');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
+
+    console.log('✅ Login successful for:', user.email);
 
     // Update last login
     await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
