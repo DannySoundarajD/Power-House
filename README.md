@@ -1,6 +1,6 @@
-# 🏛 NLAMS — National Land Acquisition & Management System
+# 🌍 Bhoomi360 — 360° Land Acquisition & Management System
 
-**Prototype: Chennai District, Tamil Nadu**  
+**Complete View of Land Acquisition · From Proposal to Possession**  
 **Smart India Hackathon 2026 — PS-26016 · Ministry of Rural Development**
 
 ---
@@ -24,11 +24,11 @@
 
 ## 🌟 About
 
-A full-stack prototype of the **National Land Acquisition & Management System** that digitizes the complete land acquisition lifecycle — from project proposal submission to final possession of land.
+A full-stack prototype of **Bhoomi360** that digitizes the complete land acquisition lifecycle — from project proposal submission to final possession of land.
 
 **Problem Statement:** Fragmented land acquisition systems across India lead to inconsistent data, delays, limited transparency, and inadequate monitoring. Decision-makers lack real-time information on acquisition progress, compensation disbursement, and rehabilitation measures.
 
-**Solution:** NLAMS provides an end-to-end digital platform with:
+**Solution:** Bhoomi360 provides an end-to-end digital platform with:
 - 🗺 **GIS-based spatial visualization** using PostGIS
 - 📊 **Real-time national dashboard** with KPIs and charts
 - 🔄 **Automated workflow routing** with role-based approvals
@@ -210,7 +210,7 @@ Airport COD Milestone Breached (Target: March 2030)
 
 The frontend login requires the backend ngrok tunnel to be online. If the API URL reports `ERR_NGROK_3200`, restart the backend and ngrok deployment before testing authentication.
 
-![NLAMS National Dashboard](dashboard-screenshot.png)
+![Bhoomi360 Dashboard](dashboard-screenshot.png)
 
 ### Prerequisites
 - **Node.js 18+** ([Download](https://nodejs.org/))
